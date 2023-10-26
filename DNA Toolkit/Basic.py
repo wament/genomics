@@ -8,6 +8,7 @@
 
 import collections
 
+
 # Base Pairs for DNA    A <-> T  |  C <-> G
 Nucleotides = ["A", "C", "G", "T"]
 
@@ -22,21 +23,63 @@ def validateSeq(dna_seq):
         dna_seq (string): A string of characters A,C,G,T 
 
     Returns:
-        _type_: _description_
+        string: Valid or Invalid
     """
     seq = dna_seq.upper()
     for nuc in seq:
         if nuc not in Nucleotides:
             print("\nThe sequence contains an invalid char{} ",nuc)
             return False
-    print("Valid Sequence")
     return seq
 
 def countNuc(seq):
-    return dict(collections.Counter(seq))
+    dict = {"A":0, "C":0, "G":0, "T":0}
+    for nuc in seq:
+        dict[nuc] +=1
+    return dict
+    #return dict(collections.Counter(seq))
 
-def invertDNA(seq):
-    return seq.reverse()
+def revComplementDNA(seq):
+    """Find the reverse complement of an input sequence
+
+    Args:
+        seq (string): Input DNA sequence A,C,G,T
+    Returns:
+        string: complementary DNA transcription
+    """
+    
+    #very cute piece of code here. Start with an empty string literal "".
+    # .join on it and use a list literal and reference the NucComp dict
+    # then [::-1] will reverse the string after the join is finished
+    return "".join([NucComplement[nuc] for nuc in seq])[::-1]
+    
+
 
 def DNAtranscription(seq):
-    return seq.replace("T","U")
+    """Generates a complementary RNA sequence from a DNA sequence input
+
+    Args:
+        dna_seq (string): A string of characters A,C,G,T 
+
+    Returns:
+        string: complementary RNA transcription
+    """
+    return seq.replace("T", "U")
+
+def gcContent(seq):
+    return round((seq.count('C') + seq.count('G')) / len(seq) * 100)
+
+def gcContentSubset(seq, k):
+    res = []
+    
+    
+    for i in range(0, len(seq) - k + 1, k):
+        subset = seq[i:i+k]
+        res.append(gcContent(subset))
+
+    if len(seq) % k != 0:
+        reverse_seq = seq[::-1]
+        rest_seq = reverse_seq[0 : (len(seq)%k)]
+        res.append(gcContent(rest_seq))
+    return res
+

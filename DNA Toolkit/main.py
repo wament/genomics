@@ -5,12 +5,40 @@
 
 
 from Basic import *
+from utilities import colored
 import random
 
-#str = "AAGGACCCTTGACTTTGCCAAATAgG"
-rndDNAStr = ''.join([random.choice(Nucleotides) for nuc in range(20)])
+str = "TGCCAGCAAGACGCGCAAGGAGTCGCATACAAATTCTGCTAGTAATAGTGCACATGGGCGGGTAGACATTCTTGGAGTCGTTCTATTGGGCCGCTACCGTCGATCTGCTCCTCGGCTAAAAGATTGTGACCATTGATATTGCTTAGTATGTGTGTACCCCCGGAAGCCCGTGTAAGCAAGCCCAACGCAAGGCTGGCCTCGGTGGCTCTGGTATCAGATTGACAATATTTGGCATCGCACTATAACTTATTATGTCGTTTATCGTACGACCGTGGGTAACCTAGGGTCAGACGACCTGAGCCTACCGACGTGCTCCCTTACTACCACAGGCAACTTTAAAAATATCCGTTAGTGCAATATGTGCCCGTACGAAGGCAGACAATTGTTACGGGTATATATCCTAGCTCGCAATGCAGTTGTGGCGTTACAATTTAGCACAAGCATGATGCTGGCACCATAACGCGGCCAGAGCTTTCTTCTCAGTAACACTTCCGCTGGCACCAAAGTTCTATTAACGTCCAACTATAAATCGACTCACGGGATTTCCCTTACCAGTCGAGCCCGTGGATTCGAGTCGGAAAGGAGAAAATCATAGAAACATCCCGCTAGCGATTGGAACCTCAACGGACCAACACGGAGCCTCGTTCGACTCTGTCATTGTCATGGCGCGAAGCAGGTAACCTTCCCACTTTTTTTTAGATCGATCGGCAACCGGTTCGCGTCTCACTCGAGACGCCGCGTGGCCCCATATTTATGCAAGCCACGCATCTTTTTGTGTAGTAGCAGTAGATCGACCAATTGAACGTTGCCACATGGGCCTGTGCCCAGATAGTAGCTAAGATAGTAGCTGCGTTAATTCTGTGCGTGCGGCTAAGCTTGTTTCGTAC"
 
-seq = validateSeq(rndDNAStr)
+#this sometimes makes a string with only 3 nucleotides (random but not realistic)
+rndDNAStr = ''.join([random.choice(Nucleotides) for nuc in range(40)])
 
-print(seq)
-print(countNuc(seq))
+seq = validateSeq(str)
+
+print(f"Validated Sequence [Length: {len(seq)}] \n{colored(seq)}")
+
+
+
+
+NucleotideCount = countNuc(seq)
+print(colored(f"{NucleotideCount}"))
+
+transcription = DNAtranscription(seq)
+print(f"RNA transcription: \n{colored(transcription)}")
+
+
+print(f" \nOrigin Strand ~ 5' {colored(seq)} 3'")
+print("{:>19}{}".format("",'|'*len(seq)))
+
+
+revcomp = revComplementDNA(seq)
+print("{:>18} {:<100} 3'".format("Complement ~ 5'", colored(revcomp[::-1])))
+print("{:>18} {:<100} 5'".format("Reverse Comp ~ 3'", colored(revcomp)))
+
+gcCon = gcContent(seq)
+k = 6
+gcSubsets = gcContentSubset(seq, k)
+
+print(f"\nGC Content {gcCon}")
+print(f"GC Content k={k} {gcSubsets}")
+
