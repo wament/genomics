@@ -4,7 +4,7 @@
 
 
 
-from Basic import *
+import Basic
 from utilities import colored
 import random
 
